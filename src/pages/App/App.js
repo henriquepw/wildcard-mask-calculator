@@ -61,28 +61,35 @@ class App extends Component {
         if (target) {
             await this.setState({ maskBin: target.value });
             this.handleMask({});
+            this.handleMask255({});
         } else {
-            const { mask } = this.state;
             let maskBin;
-
-            if (origin === 'mask255'){
+            
+            if (origin === 'mask255') {
+                maskBin = this.convertIp(this.state.mask255, 2);
             } else {
+                const { mask } = this.state;
                 const bin = `${'1'.repeat(mask)}${'0'.repeat(32 - mask)}`;
                 maskBin = `${bin.substr(0, 8)}.${bin.substr(8, 8)}.${bin.substr(16, 8)}.${bin.substr(24, 8)}`;
             }
 
             await this.setState({ maskBin });
+
+            if (origin === 'mask255') this.handleMask({});
+            else this.handleMask255({});
+            
         }
     };
 
     handleMask255 = async ({ target }) => {
         if (target) {
             await this.setState({ mask255: target.value });
+            this.handleMaskBin({}, 'mask255');
         } else {
             const mask255 = this.convertIp(this.state.maskBin, 10);
             this.setState({ mask255 });
         }
-    }
+    };
 
     render() {
         return (
@@ -134,7 +141,7 @@ class App extends Component {
                 <Input
                     width='40%'
                     type='text'
-                    placeholder='11111111.11111111.11111111.11111111'
+                    placeholder='11111111.11111111.11111111.00000000'
                     value={this.state.maskBin}
                     onChange={this.handleMaskBin}
                 />

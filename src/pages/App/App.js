@@ -10,6 +10,7 @@ class App extends Component {
             address: '',
             addressBin: '',
             maskBin: '',
+            mask255: '',
             mask: ''
         };
     }
@@ -18,11 +19,7 @@ class App extends Component {
         await this.setState({ address: target.value });
         this.handleAddressBin();
     };
-
-    handleMask = ({ target }) => {
-        this.setState({ mask: target.value });
-    };
-
+    
     handleAddressBin = () => {
         const { address } = this.state;
         const addressBin = address
@@ -31,6 +28,20 @@ class App extends Component {
             .reduce((final, now) => `${final}.${now}`);
 
         this.setState({ addressBin });
+    };
+
+    handleMask = async ({ target }) => {
+        await this.setState({ mask: target.value });
+        this.handleMaskBin();
+    };
+
+    handleMaskBin = () => {
+        const { mask } = this.state;
+
+        const bin = `${'1'.repeat(mask)}${'0'.repeat(32 - mask)}`;
+        const maskBin = `${bin.substr(0,8)}.${bin.substr(8,8)}.${bin.substr(16,8)}.${bin.substr(24,8)}`;
+
+        this.setState({ maskBin });
     };
 
     render() {
@@ -42,7 +53,7 @@ class App extends Component {
                 <Text display='block'>Digite o endereço de rede / mascara</Text>
                 <Text display='block'>Decimal</Text>
                 <Input
-                    width='8em'
+                    //width='8em'
                     type='text'
                     placeholder='Network address'
                     value={this.state.address}
@@ -60,13 +71,18 @@ class App extends Component {
                     value={this.state.mask}
                     onChange={this.handleMask}
                 />
-                <Text margin='9px 0px 9px 15px'> -> </Text>
-                <Text>255.255.255.0</Text>
+                <Text margin='9px 15px 9px 15px'> -> </Text>
+                <Input
+                    type='text'
+                    placeholder='255.255.255.0'
+                    value={this.state.mask255}
+                    onChange={this.handleMask255}
+                />
 
                 <Text display='block'>Binario</Text>
 
                 <Input
-                    width='17em'
+                    width='40%'
                     type='text'
                     placeholder='11111111.11111111.11111111.11111111'
                     value={this.state.addressBin}
@@ -76,11 +92,11 @@ class App extends Component {
                     /
                 </Text>
                 <Input
-                    width='17em'
+                    width='40%'
                     type='text'
                     placeholder='11111111.11111111.11111111.11111111'
                     value={this.state.maskBin}
-                    onChange={this.handlemaskBin}
+                    onChange={this.handleMaskBin}
                 />
             </Container>
         );

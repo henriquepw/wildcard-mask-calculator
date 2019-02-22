@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
     background-color: rgba(50, 50, 50);
@@ -14,15 +14,38 @@ const Container = styled.div`
         font-size: 3em;
         text-align: center;
     }
-
-    input {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        margin: 10px;
-        border: 0px;
-
-        font-size: 1.5em;
-    }
 `;
 
-export { Container };
+const Input = styled.input`
+    background-color: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+
+    padding: 10px;
+    border: 0px;
+    font-size: 1.5em;
+
+    ${({ width }) => width && css`
+        width: ${width};
+    `}
+`;
+
+const Text = styled.p`
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 9px 15px 9px 15px;
+    font-size: 1.8em;
+
+    ${({ margin }) => margin && css`
+        margin: ${margin};
+    `}
+
+    ${({ size }) => size && css`
+        font-size: ${size};
+    `}
+
+    ${({ display }) => display && css`
+        display: ${display};
+    `}
+`;
+
+export { Container, Input, Text };

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
+import Input from '../../components/Input/Input';
+
 import GlobalStyle from '../../styles/globalStyle';
-import { Container, Input, Text } from './App.style';
+import { Container, Header, Text } from './App.style';
+import { Box, Cell } from '../../styles/grid';
 
 class App extends Component {
     constructor(props) {
@@ -64,20 +67,22 @@ class App extends Component {
             this.handleMask255({});
         } else {
             let maskBin;
-            
+
             if (origin === 'mask255') {
                 maskBin = this.convertIp(this.state.mask255, 2);
             } else {
                 const { mask } = this.state;
                 const bin = `${'1'.repeat(mask)}${'0'.repeat(32 - mask)}`;
-                maskBin = `${bin.substr(0, 8)}.${bin.substr(8, 8)}.${bin.substr(16, 8)}.${bin.substr(24, 8)}`;
+                maskBin = `${bin.substr(0, 8)}.${bin.substr(8, 8)}.${bin.substr(
+                    16,
+                    8
+                )}.${bin.substr(24, 8)}`;
             }
 
             await this.setState({ maskBin });
 
             if (origin === 'mask255') this.handleMask({});
             else this.handleMask255({});
-            
         }
     };
 
@@ -95,56 +100,87 @@ class App extends Component {
         return (
             <Container>
                 <GlobalStyle />
-                <h1>Wildcard Mask Calculator</h1>
+                <Header>
+                    <h1>Wildcard Mask Calculator</h1>
+                </Header>
 
-                <Text display='block'>Digite o endereço de rede / mascara</Text>
-                <Text display='block'>Decimal</Text>
-                <Input
-                    //width='8em'
-                    type='text'
-                    placeholder='Network address'
-                    value={this.state.address}
-                    onChange={this.handleAddress}
-                />
-                <Text size='3em' margin='0px 15px 0px 15px'>
-                    /
-                </Text>
-                <Input
-                    width='1.8em'
-                    type='number'
-                    min='8'
-                    max='30'
-                    placeholder='24'
-                    value={this.state.mask}
-                    onChange={this.handleMask}
-                />
-                <Text margin='9px 15px 9px 15px'> -> </Text>
-                <Input
-                    type='text'
-                    placeholder='255.255.255.0'
-                    value={this.state.mask255}
-                    onChange={this.handleMask255}
-                />
-
-                <Text display='block'>Binario</Text>
-
-                <Input
-                    width='40%'
-                    type='text'
-                    placeholder='11111111.11111111.11111111.11111111'
-                    value={this.state.addressBin}
-                    onChange={this.handleAddressBin}
-                />
-                <Text size='3em' margin='0px 15px 0px 15px'>
-                    /
-                </Text>
-                <Input
-                    width='40%'
-                    type='text'
-                    placeholder='11111111.11111111.11111111.00000000'
-                    value={this.state.maskBin}
-                    onChange={this.handleMaskBin}
-                />
+                <Box>
+                    <Cell rowAll>
+                        <Text start='1' end='span 3'>
+                            Endereço de Rede
+                        </Text>
+                    </Cell>
+                    <Cell>
+                        <Input
+                            name='Decimal'
+                            input={{
+                                type: 'text',
+                                placeholder: 'Network address',
+                                value: this.state.address,
+                                onChange: this.handleAddress
+                            }}
+                        />
+                    </Cell>
+                    <Cell>
+                        <Text size='3em' margin='0px 15px 0px 15px'>
+                            /
+                        </Text>
+                    </Cell>
+                    <Cell>
+                        <Input
+                            input={{
+                                width: '1.8em',
+                                type: 'number',
+                                min: '8',
+                                max: '30',
+                                placeholder: '24',
+                                value: this.state.mask,
+                                onChange: this.handleMask
+                            }}
+                        />
+                        <Input
+                            input={{
+                                type: 'text',
+                                placeholder: '255.255.255.0',
+                                value: this.state.mask255,
+                                onChange: this.handleMask255
+                            }}
+                        />
+                    </Cell>
+                    <Cell>
+                        <Input
+                            name='Binário'
+                            input={{
+                                type: 'text',
+                                placeholder:
+                                    '11111111.11111111.11111111.11111111',
+                                value: this.state.addressBin,
+                                onChange: this.handleAddressBin
+                            }}
+                        />
+                    </Cell>
+                    <Cell right>
+                        <Input
+                            start='4'
+                            input={{
+                                type: 'text',
+                                placeholder:
+                                    '11111111.11111111.11111111.00000000',
+                                value: this.state.maskBin,
+                                onChange: this.handleMaskBin
+                            }}
+                        />
+                    </Cell>
+                    <Cell>7</Cell>
+                    <Cell right>8</Cell>
+                    <Cell rowAll>9</Cell>
+                    <Cell rowAll>
+                        <Text start='1' end='span 3'>
+                            Wildcard mask
+                        </Text></Cell>
+                    <Cell>11</Cell>
+                    <Cell right>12</Cell>
+                </Box>
             </Container>
         );
     }

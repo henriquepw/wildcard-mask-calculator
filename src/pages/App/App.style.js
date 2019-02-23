@@ -1,51 +1,65 @@
 import styled, { css } from 'styled-components';
+import Colors from '../../styles/colors';
 
 const Container = styled.div`
-    background-color: rgba(50, 50, 50);
-    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: ${Colors.primaryDarkColor};
+    color: ${Colors.secundaryTextColor};
+    
     width: 100vw;
     height: 100vh;
+`;
 
+const Box = styled.div`
+    display: grid;
+
+    grid-template-columns: 1fr 3em 1fr;
+`;
+
+const Header = styled.header`
+    background-color: ${Colors.header};
+    width: 100vw;
     h1 {
         margin: auto;
-        padding-top: 1em;
-        padding-bottom: 1em;
+        padding-top: 0.8em;
+        padding-bottom: 0.8em;
 
-        font-size: 3em;
+        font-size: 1.8em;
         text-align: center;
     }
 `;
 
-const Input = styled.input`
-    background-color: rgba(255, 255, 255, 0.8);
-    display: inline-block;
-
-    padding: 10px;
-    border: 0px;
-    font-size: 1.5em;
-
-    ${({ width }) => width && css`
-        width: ${width};
-    `}
-`;
-
-const Text = styled.p`
-    display: inline-block;
+const Text = styled.label`
     vertical-align: bottom;
     margin: 9px 15px 9px 15px;
-    font-size: 1.8em;
+    font-size: 1.2em;
 
-    ${({ margin }) => margin && css`
-        margin: ${margin};
-    `}
+    ${({ margin }) =>
+        margin && css`
+            margin: ${margin};
+        `}
 
-    ${({ size }) => size && css`
-        font-size: ${size};
-    `}
+    ${({ size }) =>
+        size && css`
+            font-size: ${size};
+        `}
 
-    ${({ display }) => display && css`
-        display: ${display};
-    `}
+    ${({ display }) =>
+        display && css`
+            display: ${display};
+        `}
+
+    ${({ start }) =>
+        start && css`
+            grid-column-start: ${start};
+        `}
+    ${({ end }) =>
+        end && css`
+            grid-column-end: ${end};
+        `}
 `;
 
-export { Container, Input, Text };
+export { Container, Box, Header, Text };

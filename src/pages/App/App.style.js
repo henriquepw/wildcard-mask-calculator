@@ -1,28 +1,50 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Colors from '../../styles/colors';
 
 const Container = styled.div`
-    background-color: rgba(50, 50, 50);
-    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: ${Colors.primaryDarkColor};
+    color: ${Colors.secundaryTextColor};
+
     width: 100vw;
     height: 100vh;
+`;
 
+const Box = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 3em 1fr;
+`;
+
+const Header = styled.header`
+    background-color: ${Colors.header};
+    width: 100vw;
     h1 {
         margin: auto;
-        padding-top: 1em;
-        padding-bottom: 1em;
+        padding-top: 0.8em;
+        padding-bottom: 0.8em;
 
-        font-size: 3em;
+        font-size: 1.8em;
         text-align: center;
-    }
-
-    input {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        margin: 10px;
-        border: 0px;
-
-        font-size: 1.5em;
     }
 `;
 
-export { Container };
+const Text = styled.label`
+    vertical-align: bottom;
+    font-size: 1.5em;
+
+    ${({ size }) =>
+        size && css`
+            font-size: ${size};
+        `}
+`;
+
+const Divider = styled.div`
+    background-color: ${Colors.secundaryTextColor};
+    width: 30%;
+    height: 0.2em;
+`;
+
+export { Container, Box, Header, Text, Divider };

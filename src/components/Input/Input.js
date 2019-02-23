@@ -1,8 +1,10 @@
 import React from 'react';
-import Input from './Input.style';
+import { Container, Input } from './Input.style';
+import { AST_PropAccess } from 'terser';
 
 export default props => (
-    <div>
-        <Input type='text' name='ip'></Input>
-    </div>
+    <Container flex={props.flex} right={props.right}>
+        <label>{props.name}</label>
+        <Input {...props.input} />
+    </Container>
 );

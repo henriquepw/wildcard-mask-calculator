@@ -8,14 +8,13 @@ const Container = styled.div`
 
     background-color: ${Colors.primaryDarkColor};
     color: ${Colors.secundaryTextColor};
-    
+
     width: 100vw;
     height: 100vh;
 `;
 
 const Box = styled.div`
     display: grid;
-
     grid-template-columns: 1fr 3em 1fr;
 `;
 
@@ -34,32 +33,18 @@ const Header = styled.header`
 
 const Text = styled.label`
     vertical-align: bottom;
-    margin: 9px 15px 9px 15px;
-    font-size: 1.2em;
-
-    ${({ margin }) =>
-        margin && css`
-            margin: ${margin};
-        `}
+    font-size: 1.5em;
 
     ${({ size }) =>
         size && css`
             font-size: ${size};
         `}
-
-    ${({ display }) =>
-        display && css`
-            display: ${display};
-        `}
-
-    ${({ start }) =>
-        start && css`
-            grid-column-start: ${start};
-        `}
-    ${({ end }) =>
-        end && css`
-            grid-column-end: ${end};
-        `}
 `;
 
-export { Container, Box, Header, Text };
+const Divider = styled.div`
+    background-color: ${Colors.secundaryTextColor};
+    width: 30%;
+    height: 0.2em;
+`;
+
+export { Container, Box, Header, Text, Divider };

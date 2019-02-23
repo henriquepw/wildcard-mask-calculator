@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Input from '../../components/Input/Input';
 
 import GlobalStyle from '../../styles/globalStyle';
-import { Container, Header, Text } from './App.style';
+import { Container, Header, Text, Divider } from './App.style';
 import { Box, Cell } from '../../styles/grid';
 
 class App extends Component {
@@ -100,17 +100,16 @@ class App extends Component {
         return (
             <Container>
                 <GlobalStyle />
+
                 <Header>
-                    <h1>Wildcard Mask Calculator</h1>
+                    <h1>{`< Nome de projeto legal aqui >`}</h1>
                 </Header>
 
                 <Box>
                     <Cell rowAll>
-                        <Text start='1' end='span 3'>
-                            Endereço de Rede
-                        </Text>
+                        <Text>Endereço de Rede</Text>
                     </Cell>
-                    <Cell>
+                    <Cell left>
                         <Input
                             name='Decimal'
                             input={{
@@ -121,15 +120,14 @@ class App extends Component {
                             }}
                         />
                     </Cell>
-                    <Cell>
-                        <Text size='3em' margin='0px 15px 0px 15px'>
-                            /
-                        </Text>
+                    <Cell center>
+                        <Text size='2em'>/</Text>
                     </Cell>
                     <Cell>
                         <Input
+                            flex='2'
+                            right='25px'
                             input={{
-                                width: '1.8em',
                                 type: 'number',
                                 min: '8',
                                 max: '30',
@@ -139,6 +137,7 @@ class App extends Component {
                             }}
                         />
                         <Input
+                            flex='8'
                             input={{
                                 type: 'text',
                                 placeholder: '255.255.255.0',
@@ -147,7 +146,7 @@ class App extends Component {
                             }}
                         />
                     </Cell>
-                    <Cell>
+                    <Cell left>
                         <Input
                             name='Binário'
                             input={{
@@ -161,7 +160,6 @@ class App extends Component {
                     </Cell>
                     <Cell right>
                         <Input
-                            start='4'
                             input={{
                                 type: 'text',
                                 placeholder:
@@ -171,15 +169,55 @@ class App extends Component {
                             }}
                         />
                     </Cell>
-                    <Cell>7</Cell>
-                    <Cell right>8</Cell>
-                    <Cell rowAll>9</Cell>
+                    <Cell left>
+                        <Input
+                            name='Subnets'
+                            input={{
+                                type: 'text',
+                                placeholder: '0',
+                                value: this.state.maskBin,
+                                onChange: this.handleMaskBin
+                            }}
+                        />
+                    </Cell>
+                    <Cell right>
+                        <Input
+                            name='Hosts'
+                            input={{
+                                type: 'text',
+                                placeholder: '254',
+                                value: this.state.maskBin,
+                                onChange: this.handleMaskBin
+                            }}
+                        />
+                    </Cell>
                     <Cell rowAll>
                         <Text start='1' end='span 3'>
                             Wildcard mask
-                        </Text></Cell>
-                    <Cell>11</Cell>
-                    <Cell right>12</Cell>
+                        </Text>
+                    </Cell>
+                    <Cell left>
+                        <Input
+                            name='Parametro'
+                            input={{
+                                type: 'text',
+                                placeholder: '0',
+                                value: this.state.maskBin,
+                                onChange: this.handleMaskBin
+                            }}
+                        />
+                    </Cell>
+                    <Cell right>
+                        <Input
+                            name='Máscara'
+                            input={{
+                                type: 'text',
+                                placeholder: '0',
+                                value: this.state.maskBin,
+                                onChange: this.handleMaskBin
+                            }}
+                        />
+                    </Cell>
                 </Box>
             </Container>
         );

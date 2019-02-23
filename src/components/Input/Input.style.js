@@ -2,13 +2,23 @@ import styled, { css } from 'styled-components';
 import Colors from '../../styles/colors';
 
 const Container = styled.div`
-    display: inline-block;
-    
+    width: 100%;
+
     label {
         display: block;
         font-size: 1.2em;
         margin: 0px;
     }
+
+    ${({ flex }) =>
+        flex && css`
+            flex: ${flex};
+        `}
+
+    ${({ right }) =>
+        right && css`
+            margin-right: ${right};
+        `}
 `;
 
 const Input = styled.input`
@@ -16,7 +26,6 @@ const Input = styled.input`
 
     width: 100%;
     font-size: 1.2em;
-    padding: 10px;
     border: none;
     border-bottom: 3px solid ${Colors.secundaryTextColor};
 
@@ -34,15 +43,6 @@ const Input = styled.input`
     ${({ width }) =>
         width && css`
             width: ${width};
-        `}
-
-    ${({ start }) =>
-        start && css`
-            grid-column-start: ${start};
-        `}
-    ${({ end }) =>
-        end && css`
-            grid-column-start: ${end};
         `}
 `;
 

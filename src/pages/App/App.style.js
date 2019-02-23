@@ -41,10 +41,4 @@ const Text = styled.label`
         `}
 `;
 
-const Divider = styled.div`
-    background-color: ${Colors.secundaryTextColor};
-    width: 30%;
-    height: 0.2em;
-`;
-
-export { Container, Box, Header, Text, Divider };
+export { Container, Box, Header, Text };

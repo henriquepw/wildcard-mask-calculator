@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Input from '../../components/Input/Input';
 
 import GlobalStyle from '../../styles/globalStyle';
-import { Container, Header, Text, Divider } from './App.style';
+import { Container, Header, Text } from './App.style';
 import { Box, Cell } from '../../styles/grid';
 
 class App extends Component {

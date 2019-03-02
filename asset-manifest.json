@@ -1,11 +1,11 @@
 {
-  "main.js": "/static/js/main.42c4ae3e.chunk.js",
-  "main.js.map": "/static/js/main.42c4ae3e.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.fdfcfda2.js",
-  "runtime~main.js.map": "/static/js/runtime~main.fdfcfda2.js.map",
-  "static/js/2.eea1473c.chunk.js": "/static/js/2.eea1473c.chunk.js",
-  "static/js/2.eea1473c.chunk.js.map": "/static/js/2.eea1473c.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.dd67333e981d92eaa48a81b33248f203.js": "/precache-manifest.dd67333e981d92eaa48a81b33248f203.js",
-  "service-worker.js": "/service-worker.js"
+  "main.js": "/wildcard-mask-calculator/static/js/main.8848dfca.chunk.js",
+  "main.js.map": "/wildcard-mask-calculator/static/js/main.8848dfca.chunk.js.map",
+  "runtime~main.js": "/wildcard-mask-calculator/static/js/runtime~main.e4c4a482.js",
+  "runtime~main.js.map": "/wildcard-mask-calculator/static/js/runtime~main.e4c4a482.js.map",
+  "static/js/2.d1e10d6f.chunk.js": "/wildcard-mask-calculator/static/js/2.d1e10d6f.chunk.js",
+  "static/js/2.d1e10d6f.chunk.js.map": "/wildcard-mask-calculator/static/js/2.d1e10d6f.chunk.js.map",
+  "index.html": "/wildcard-mask-calculator/index.html",
+  "precache-manifest.205336baabafad53119ebf20a78abb9b.js": "/wildcard-mask-calculator/precache-manifest.205336baabafad53119ebf20a78abb9b.js",
+  "service-worker.js": "/wildcard-mask-calculator/service-worker.js"
 }

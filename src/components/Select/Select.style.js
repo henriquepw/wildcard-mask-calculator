@@ -22,8 +22,7 @@ const Box = styled(Container)`
 		${({ disabled }) =>
 			disabled &&
 			css`
-				border-color: transparent transparent rgba(255, 255, 255, 0.4)
-					rgba(255, 255, 255, 0.4);
+				border: transparent;
 			`}
 	}
 `;

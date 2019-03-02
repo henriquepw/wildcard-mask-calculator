@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const Box = styled.main`
 	width: 60vw;
-	height: 100%;
+	height: 100vh;
 	min-width: 761px;
 	max-width: 900px;
 
@@ -42,4 +42,26 @@ const Cell = styled.div`
 		`}
 `;
 
-export { Box, Cell };
+const Container = styled.div`
+	width: 100%;
+
+	label {
+		display: block;
+		font-size: 1.2em;
+		margin: 0px;
+	}
+
+	${({ flex }) =>
+		flex &&
+		css`
+			flex: ${flex};
+		`}
+
+	${({ right }) =>
+		right &&
+		css`
+			margin-right: ${right};
+		`}
+`;
+
+export { Box, Cell, Container };

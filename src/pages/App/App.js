@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
 import Input from '../../components/Input/Input';
-import { isIP } from '../../validator';
+import Select from '../../components/Select/Select';
+import { isIP, isMask } from '../../validator';
 
 import GlobalStyle from '../../styles/globalStyle';
 import { Container, Header, Text } from './App.style';
 import { Box, Cell } from '../../styles/grid';
+
+const NUM_OF_MASK = new Array(23).fill(0).map((_, i) => i + 8);
 
 class App extends Component {
 	constructor(props) {
@@ -15,86 +18,107 @@ class App extends Component {
 			mask: '',
 			binaryIP: '',
 			binaryMask: '',
+			maskPrefix: '',
+			subnets: '',
+			hosts: '',
+			hostParam: '',
 			Wildcard: '',
 			validAddress: false
 		};
 	}
 
-	convertIp = (address, base = 2) => {
-		const convert = block =>
-			base === 10 ? parseInt(block, 2) : (+block).toString(2);
+	convertIp = (ip, base = 2) => {
+		const convert = block => (base === 10 ? parseInt(block, 2) : (+block).toString(2));
 
-		return address
+		return ip
 			.split('.')
 			.map(block => convert(block))
 			.reduce((final, now) => `${final}.${now}`);
 	};
 
-	handleAddress = async ({ target }) => {
+	handleIP = async ({ target }) => {
 		if (target) {
-			await this.setState({ address: target.value });
-			this.handleAddressBin({});
+			await this.setState({ ip: target.value });
+			this.handleBinaryIP({});
 		} else {
-			const address = this.convertIp(this.state.addressBin, 10);
-			this.setState({ address });
+			const ip = this.convertIp(this.state.binaryIP, 10);
+			await this.setState({ ip });
 		}
+
+		this.handleValidate();
 	};
 
-	handleAddressBin = async ({ target }) => {
+	handleBinaryIP = async ({ target }) => {
 		if (target) {
-			await this.setState({ addressBin: target.value });
-			this.handleAddress({});
+			await this.setState({ binaryIP: target.value });
+			this.handleIP({});
 		} else {
-			const addressBin = this.convertIp(this.state.address, 2);
-			this.setState({ addressBin });
+			const binaryIP = this.convertIp(this.state.ip, 2);
+			await this.setState({ binaryIP });
 		}
 	};
 
 	handleMask = async ({ target }) => {
 		if (target) {
 			await this.setState({ mask: target.value });
-			this.handleMaskBin({}, 'mask');
+			this.handleBinaryMask({}, 'mask');
 		} else {
-			const maskBin = this.state.maskBin.split('.').join('');
-			const mask = maskBin.length - maskBin.split('1').join('').length;
-			await this.setState({ mask });
+			const mask = this.convertIp(this.state.binaryMask, 10);
+			this.setState({ mask });
+		}
+
+		this.handleValidate();
+	};
+
+	handleMaskPrefix = async ({ target }) => {
+		if (target) {
+			await this.setState({ maskPrefix: target.value });
+			this.handleBinaryMask({}, 'maskPrefix');
+			this.handleHost({});
+		} else {
+			const binaryMask = this.state.binaryMask.split('.').join('');
+			const maskPrefix = binaryMask.length - binaryMask.split('1').join('').length;
+			await this.setState({ maskPrefix });
 		}
 	};
 
-	handleMaskBin = async ({ target }, origin) => {
+	handleBinaryMask = async ({ target }, origin) => {
 		if (target) {
-			await this.setState({ maskBin: target.value });
+			await this.setState({ binaryMask: target.value });
+			this.handleMaskPrefix({});
 			this.handleMask({});
-			this.handleMask255({});
 		} else {
-			let maskBin;
+			let binaryMask;
 
-			if (origin === 'mask255') {
-				maskBin = this.convertIp(this.state.mask255, 2);
+			if (origin === 'mask') {
+				binaryMask = this.convertIp(this.state.mask, 2);
 			} else {
-				const { mask } = this.state;
-				const bin = `${'1'.repeat(mask)}${'0'.repeat(32 - mask)}`;
-				maskBin = `${bin.substr(0, 8)}.${bin.substr(8, 8)}.${bin.substr(
-					16,
-					8
-				)}.${bin.substr(24, 8)}`;
+				const { maskPrefix } = this.state;
+				const bin = `${'1'.repeat(maskPrefix)}${'0'.repeat(32 - maskPrefix)}`;
+				binaryMask =
+					`${bin.substr(0, 8)}.${bin.substr(8, 8)}.` +
+					`${bin.substr(16, 8)}.${bin.substr(24, 8)}`;
 			}
 
-			await this.setState({ maskBin });
+			await this.setState({ binaryMask });
 
-			if (origin === 'mask255') this.handleMask({});
-			else this.handleMask255({});
+			if (origin === 'mask') this.handleMaskPrefix({});
+			else this.handleMask({});
 		}
 	};
 
-	handleMask255 = async ({ target }) => {
+	handleHost = async ({ target }) => {
 		if (target) {
-			await this.setState({ mask255: target.value });
-			this.handleMaskBin({}, 'mask255');
+			await this.setState({ host: target.value });
 		} else {
-			const mask255 = this.convertIp(this.state.maskBin, 10);
-			this.setState({ mask255 });
+			const hosts = 2 ** (32 - this.state.maskPrefix) - 2;
+			await this.setState({ hosts });
 		}
+	};
+
+	handleValidate = async () => {
+		const { ip, mask } = this.state;
+		await this.setState({ validAddress: isIP(ip) && isMask(mask) });
 	};
 
 	render() {
@@ -103,7 +127,7 @@ class App extends Component {
 				<GlobalStyle />
 
 				<Header>
-					<h1>{`< Nome de projeto legal aqui >`}</h1>
+					<h1>{`Wildcard Mask Calculator`}</h1>
 				</Header>
 
 				<Box>
@@ -115,9 +139,9 @@ class App extends Component {
 							name='Decimal'
 							input={{
 								type: 'text',
-								placeholder: 'Network address',
+								placeholder: '192.168.0.1',
 								value: this.state.ip,
-								onChange: this.handleAddress
+								onChange: this.handleIP
 							}}
 						/>
 					</Cell>
@@ -125,17 +149,12 @@ class App extends Component {
 						<Text size='2em'>/</Text>
 					</Cell>
 					<Cell>
-						<Input
+						<Select
 							flex='2'
 							right='25px'
-							input={{
-								type: 'number',
-								min: '8',
-								max: '30',
-								placeholder: '24',
-								value: this.state.mask,
-								onChange: this.handleMask
-							}}
+							values={NUM_OF_MASK}
+							value={this.state.maskPrefix}
+							onChange={this.handleMaskPrefix}
 						/>
 						<Input
 							flex='8'
@@ -143,7 +162,7 @@ class App extends Component {
 								type: 'text',
 								placeholder: '255.255.255.0',
 								value: this.state.mask,
-								onChange: this.handleMask255
+								onChange: this.handleMask
 							}}
 						/>
 					</Cell>
@@ -152,10 +171,9 @@ class App extends Component {
 							name='Binário'
 							input={{
 								type: 'text',
-								placeholder:
-									'11111111.11111111.11111111.11111111',
+								placeholder: '11111111.11111111.11111111.11111111',
 								value: this.state.binaryIP,
-								onChange: this.handleAddressBin
+								onChange: this.handleBinaryIP
 							}}
 						/>
 					</Cell>
@@ -163,51 +181,44 @@ class App extends Component {
 						<Input
 							input={{
 								type: 'text',
-								placeholder:
-									'11111111.11111111.11111111.00000000',
+								placeholder: '11111111.11111111.11111111.00000000',
 								value: this.state.binaryMask,
-								onChange: this.handleMaskBin
+								onChange: this.handleBinaryMask
 							}}
 						/>
 					</Cell>
 					<Cell left>
-						<Input
+						<Select
 							name='Subnets'
-							input={{
-								type: 'text',
-								placeholder: '0'
-							}}
+							values={[8, 9]}
+							disabled={!this.state.validAddress}
 						/>
 					</Cell>
 					<Cell right>
-						<Input
+						<Select
 							name='Hosts'
-							input={{
-								type: 'text',
-								placeholder: '254'
-							}}
+							values={[8, 9, this.state.hosts]}
+							value={this.state.hosts}
+							right='25px'
+							disabled={!this.state.validAddress}
+						/>
+						<Select
+							name='Parametro'
+							values={['Todos', 'Apenas pares', 'Apenas inpares']}
+							disabled={!this.state.validAddress}
 						/>
 					</Cell>
 					<Cell rowAll>
 						<Text start='1' end='span 3'>
-							Wildcard mask
+							Wildcard maskPrefix
 						</Text>
 					</Cell>
-					<Cell left>
+					<Cell rowAll>
 						<Input
-							name='Parametro'
 							input={{
 								type: 'text',
-								placeholder: '0'
-							}}
-						/>
-					</Cell>
-					<Cell right>
-						<Input
-							name='Máscara'
-							input={{
-								type: 'text',
-								placeholder: '0'
+								placeholder: '0.0.0.255',
+								disabled: true
 							}}
 						/>
 					</Cell>

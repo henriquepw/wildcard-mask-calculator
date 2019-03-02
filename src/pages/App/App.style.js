@@ -9,8 +9,8 @@ const Container = styled.div`
 	background-color: ${Colors.primaryDarkColor};
 	color: ${Colors.secundaryTextColor};
 
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 `;
 
 const Box = styled.div`
@@ -20,7 +20,9 @@ const Box = styled.div`
 
 const Header = styled.header`
 	background-color: ${Colors.header};
+	position: absolute;
 	width: 100vw;
+
 	h1 {
 		margin: auto;
 		padding-top: 0.8em;

@@ -28,6 +28,8 @@ const Input = styled.input`
 
 	width: 100%;
 	font-size: 1.2em;
+	padding: 5px;
+	padding-left: 0;
 	border: none;
 	border-bottom: 3px solid ${Colors.secundaryTextColor};
 
@@ -46,6 +48,12 @@ const Input = styled.input`
 		width &&
 		css`
 			width: ${width};
+		`}
+
+	${({ disabled }) =>
+		disabled &&
+		css`
+			border-bottom-color: rgba(255, 255, 255, 0.4);
 		`}
 `;
 
